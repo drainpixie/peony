@@ -1,0 +1,21 @@
+* 🏵️ peony
+
+[[.github/assets/scrot.png]]
+
+a simple ordered dithering tool
+
+* 🖥️ dev
+
+#+BEGIN_VERSE
+this project depends on =clang= and =make=.  
+we also provide a =manifest.scm= for =guix= users.
+#+END_VERSE
+
+#+begin_src sh
+$ guix shell -m manifest.scm
+$ make
+#+end_src
+
+* 📑 todo
++ [ ] add a gif
++ [ ] add several backends (jaro, levenshtein, etc)
