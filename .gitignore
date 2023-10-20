@@ -3,3 +3,4 @@ result/
 
 # test subjects
 *.png
+!.github/assets/*.png
