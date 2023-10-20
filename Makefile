@@ -1,10 +1,10 @@
 CXX			 = clang++
 
 CXXFLAGS ?= -fsanitize=address -Wall -Wextra -g
-CXXFLAGS += -std=c++23
-# CXXFLAGS += `pkg-config --cflags ncurses`
+CXXFLAGS += -std=c++20
 
-# LDFLAGS  += `pkg-config --libs ncurses`
+CXXFLAGS += `pkg-config --cflags opencv`
+LDFLAGS  += `pkg-config --libs opencv`
 
 TARGET = peony 
 SRC    = main.cpp
@@ -14,6 +14,6 @@ clean:
 	rm -f $(TARGET)
 
 $(TARGET): $(SRC)
-	$(CXX) -o $@ $^ $(CXXFLAGS) # $(LDFLAGS)
+	$(CXX) -o $@ $^ $(CXXFLAGS) $(LDFLAGS)
 
 .PHONY: all clean

@@ -3,28 +3,51 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = { self, nixpkgs, utils, ... }@inputs:
-    utils.lib.eachDefaultSystem (
-      system:
-      let
+  outputs = { self, nixpkgs }:
+    let
+      name = "peony";
+      allSystems = [ "x86_64-linux" "x86_64-darwin" "aarch64-linux" "aarch64-darwin" ];
+
+      forAllSystems = f: nixpkgs.lib.genAttrs allSystems (system: f {
         pkgs = import nixpkgs { inherit system; };
-        llvm = pkgs.llvmPackages_latest;
-      in
-      {
-        devShell = pkgs.mkShell.override { stdenv = pkgs.clangStdenv; } rec {
-          packages = with pkgs; [
+      });
+    in
+    {
+      # I have to figure out a way to share native/buildInputs between
+      # packages and devShells but I'm not sure how to do that yet.
+
+      # devShells = forAllSystems ({ pkgs }: {
+      #   default = pkgs.mkShell {
+      #     packages = [ pkgs.ponysay ];
+			# 	 };
+      #  });
+
+      packages = forAllSystems ({ pkgs }: {
+        default = pkgs.stdenv.mkDerivation {
+          inherit name;
+          src = ./.;
+
+          nativeBuildInputs = with pkgs; [
             gnumake
+            pkg-config
+          ];
+
+          buildInputs = with pkgs; [
             clang-tools
 
-            llvm.libstdcxxClang
-            llvm.libcxx
+            pkgs.llvmPackages_latest.libstdcxxClang
+            pkgs.llvmPackages_latest.libcxx
 
-						opencv2
+            opencv2
           ];
+
+          installPhase = ''
+            mkdir -p $out/bin
+            cp ${name} $out/bin
+          '';
         };
-      }
-    );
+      });
+    };
 }
