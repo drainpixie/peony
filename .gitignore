@@ -1,5 +1,5 @@
 # nix build artifacts
-result/
+result
 
 # test subjects
 *.png
