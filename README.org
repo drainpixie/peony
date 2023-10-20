@@ -7,15 +7,17 @@ a simple ordered dithering tool
 * 🖥️ dev
 
 #+BEGIN_VERSE
-this project depends on =clang= and =make=.  
-we also provide a =manifest.scm= for =guix= users.
+this project depends on =clang=, =make=, and =opencv2=.  
+we also provide a =flake.nix= for =nix= users.
 #+END_VERSE
 
 #+begin_src sh
-$ guix shell -m manifest.scm
+$ nix build
+
+# or
+
+$ nix develop
 $ make
 #+end_src
 
 * 📑 todo
-+ [ ] add a gif
-+ [ ] add several backends (jaro, levenshtein, etc)
