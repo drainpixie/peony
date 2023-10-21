@@ -25,13 +25,17 @@ jobs:
 
       - name: Build
         run: nix flake check
+
+      - name: Set release variables
+        run: |
+          echo "sha_short=$(git rev-parse --short "$GITHUB_SHA")" >> $GITHUB_ENV
+          echo "body=$(git log --format=%B -n 1 "$GITHUB_SHA")" >> $GITHUB_ENV
       
       - name: Release
         uses: ncipollo/release-action@v1
         with:
-          tag: $(git rev-parse --short "$GITHUB_SHA")
-          body: |
-            $(git log --format=%B -n 1 "$GITHUB_SHA")
+          tag: ${{ env.sha_short }}
+          body: ${{ env.body }}
           artifacts: |
             result/bin/peony
           
