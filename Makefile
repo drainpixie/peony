@@ -6,7 +6,7 @@ CXXFLAGS += -std=c++20
 CXXFLAGS += `pkg-config --cflags opencv`
 LDFLAGS  += `pkg-config --libs opencv`
 
-TARGET = peony 
+TARGET ?= peony 
 SRC    = main.cpp
 
 all: $(TARGET)

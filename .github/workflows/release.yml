@@ -40,5 +40,5 @@ jobs:
           tag: ${{ env.sha_short }}
           body: ${{ env.body }}
           artifacts: |
-            result/bin/peony
+            result/bin/*
           

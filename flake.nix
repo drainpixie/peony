@@ -7,17 +7,17 @@
 
   outputs = { self, nixpkgs }:
     let
-      name = "peony";
       allSystems = [ "x86_64-linux" "x86_64-darwin" "aarch64-linux" "aarch64-darwin" ];
 
       forAllSystems = f: nixpkgs.lib.genAttrs allSystems (system: f {
         pkgs = import nixpkgs { inherit system; };
+        name = "peony_${system}";
       });
     in
     {
-      packages = forAllSystems ({ pkgs }: {
+      packages = forAllSystems ({ pkgs, name }: {
         default = pkgs.stdenv.mkDerivation {
-          inherit name;
+          name = name;
           src = ./.;
 
           nativeBuildInputs = with pkgs; [
@@ -33,6 +33,10 @@
 
             opencv2
           ];
+
+          buildPhase = ''
+            TARGET=${name} make
+          '';
 
           installPhase = ''
             mkdir -p $out/bin
