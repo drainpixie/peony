@@ -29,5 +29,9 @@ jobs:
       - name: Release
         uses: ncipollo/release-action@v1
         with:
+          tag: $(git rev-parse --short "$GITHUB_SHA")
+          body: |
+            $(git log --format=%B -n 1 "$GITHUB_SHA")
           artifacts: |
             result/bin/peony
+          
