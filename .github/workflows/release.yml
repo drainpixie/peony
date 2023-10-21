@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  tests:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -23,7 +23,6 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ github.sha }}
           files: result/bin/peony
           body: |
             This is a release for commit ${{ github.sha }}.
