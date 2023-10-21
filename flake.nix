@@ -15,15 +15,6 @@
       });
     in
     {
-      # I have to figure out a way to share native/buildInputs between
-      # packages and devShells but I'm not sure how to do that yet.
-
-      # devShells = forAllSystems ({ pkgs }: {
-      #   default = pkgs.mkShell {
-      #     packages = [ pkgs.ponysay ];
-			# 	 };
-      #  });
-
       packages = forAllSystems ({ pkgs }: {
         default = pkgs.stdenv.mkDerivation {
           inherit name;
