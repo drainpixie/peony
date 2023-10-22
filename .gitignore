@@ -1,5 +1,6 @@
 # nix build artifacts
 result
+peony
 
 # test subjects
 *.png
